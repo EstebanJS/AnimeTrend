@@ -5,15 +5,15 @@ const Header = () => {
     return (
         <header className="header">
             <div className="header__logo">
-                <img src={Logo} alt="Anime Logo" />
+                <img loading="lazy" src={Logo} alt="Anime Logo" />
             </div>
-            <nav className="header__navbar">
+            {/* <nav className="header__navbar">
                 <ul>
                     <li>Anime</li>
                     <li>Manga</li>
                     <li>Categorias</li>
                 </ul>
-            </nav>
+            </nav> */}
         </header>
     )
 }

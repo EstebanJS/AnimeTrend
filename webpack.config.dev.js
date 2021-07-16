@@ -10,7 +10,7 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    filename: '[name].bundle.js',
     assetModuleFilename:'assets/images/[hash][ext][query]'
   },
   mode:'development',
@@ -21,6 +21,7 @@ module.exports = {
       "@components": path.resolve(__dirname, "src/components/"),
       "@styles": path.resolve(__dirname, "src/styles/"),
       '@images': path.resolve(__dirname,'src/assets/images/'),
+      '@icons': path.resolve(__dirname,'src/assets/icons/'),
     },
   },
   mode: "production",
@@ -47,6 +48,17 @@ module.exports = {
         test: /\.s[ac]ss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -71,5 +83,9 @@ module.exports = {
   optimization: {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+    splitChunks: {
+      // include all types of chunks
+      chunks: 'all',
+    },
   },
 };

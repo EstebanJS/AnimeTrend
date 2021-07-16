@@ -1,38 +1,22 @@
-import React, { useEffect, useState } from 'react'
-import Header from './components/Header';
-import { fetchTrending } from './service/RestApi';
-
+import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
+import TrendingSlider from "./components/TrendingSlider";
+import PopularSlider from "./components/PopularSlider";
+import HighestRatedSlider from "./components/HighestRatedSlider";
+import Footer from "./components/Footer";
 
 const App = () => {
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(null);
-    useEffect(() => {
-        fetchData()
-    }, []);
+  return (
+    <>
+      <Header />
+      <main>
+        <TrendingSlider />
+        <PopularSlider />
+        <HighestRatedSlider />
+      </main>
+      <Footer />
+    </>
+  );
+};
 
-    const fetchData = async () => {
-        try {
-            setLoading(true)
-            setError(null)
-            const data = await fetchTrending()
-            console.log(data);
-            setData(data)
-        } catch (error) {
-            setError(error)
-        }
-    }
-
-
-
-    return (
-        <>
-            <Header/>
-            <main>
-                <h1>AnimeTrend</h1>
-            </main>
-        </>
-    )
-}
-
-export default App
+export default App;

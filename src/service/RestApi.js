@@ -1,5 +1,5 @@
 const BASE_URL = "https://kitsu.io/api/edge";
-const PER_PAGE = 7;
+const PER_PAGE = 20;
 
 async function request(endpoint = "") {
   try {

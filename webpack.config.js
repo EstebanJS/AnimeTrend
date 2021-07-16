@@ -10,15 +10,16 @@ module.exports = {
   entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
-    assetModuleFilename:'assets/images/[hash][ext][query]'
+    filename: "[name].bundle.js",
+    assetModuleFilename: "assets/images/[hash][ext][query]",
   },
   resolve: {
     extensions: [".js", ".jsx"],
     alias: {
       "@components": path.resolve(__dirname, "src/components/"),
       "@styles": path.resolve(__dirname, "src/styles/"),
-      '@images': path.resolve(__dirname,'src/assets/images/'),
+      "@images": path.resolve(__dirname, "src/assets/images/"),
+      "@icons": path.resolve(__dirname, "src/assets/icons/"),
     },
   },
   mode: "production",
@@ -45,6 +46,17 @@ module.exports = {
         test: /\.s[ac]ss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
       },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: "svg-url-loader",
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ],
   },
   plugins: [
@@ -58,16 +70,23 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
-      patterns:[
-          {
-              from:path.resolve(__dirname,"src","assets/images"),
-              to:"assets/images",
-          }
-      ]
-  }),
+      patterns: [
+        {
+          from: path.resolve(__dirname, "src", "assets/images"),
+          to: "assets/images",
+        },{
+          from: path.resolve(__dirname, "src", "service-worker.js"),
+          to: "service-worker.js",
+        }
+      ],
+    }),
   ],
   optimization: {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],
+    splitChunks: {
+      // include all types of chunks
+      chunks: "all",
+    },
   },
 };
