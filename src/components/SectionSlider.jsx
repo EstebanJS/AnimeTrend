@@ -3,7 +3,6 @@ import "@styles/SectionSlider.sass";
 import arrowLeft from "@icons/arrow-left.svg";
 import arrowRight from "@icons/arrow-right.svg";
 import Card from "./Card";
-import Loading from "./Loading";
 
 const SectionSlider = ({
   name = "Section Name",
@@ -29,36 +28,32 @@ const SectionSlider = ({
       <div className="sectionSlider__header">
         <h2 className="sectionSlider__header-title">{name}</h2>
       </div>
-      {loading ? (
-        <Loading />
-      ) : (
-        <div className="sectionSlider__slider">
-          <button
-            className="sectionSlider__slider-btnControl left"
-            onClick={backSlide}
+      <div className="sectionSlider__slider">
+        <button
+          className="sectionSlider__slider-btnControl left"
+          onClick={backSlide}
+        >
+          <img src={arrowLeft} alt="" />
+        </button>
+        <div className="sectionSlider__slider-main">
+          <div
+            className="sectionSlider__slider-cards"
+            style={{ transform: `translateX(-${slider}px)` }}
           >
-            <img src={arrowLeft} alt="" />
-          </button>
-
-          <div className="sectionSlider__slider-main">
-            <div
-              className="sectionSlider__slider-cards"
-              style={{ transform: `translateX(-${slider}px)` }}
-            >
-              {data.map((cardInfo) => (
-                <Card key={cardInfo.id} data={cardInfo} />
-              ))}
-            </div>
+            {data.map((cardInfo) => (
+              <Card key={cardInfo.id} data={cardInfo}  loading={loading}/>
+            ))}
           </div>
-          <button
-            className="sectionSlider__slider-btnControl right"
-            disabled={slider === sizeSlider}
-            onClick={nextSlide}
-          >
-            <img src={arrowRight} alt="" />
-          </button>
         </div>
-      )}
+
+        <button
+          className="sectionSlider__slider-btnControl right"
+          disabled={slider === sizeSlider}
+          onClick={nextSlide}
+        >
+          <img src={arrowRight} alt="" />
+        </button>
+      </div>
     </section>
   );
 };
