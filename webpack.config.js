@@ -5,6 +5,41 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const WorkboxPlugin = require('workbox-webpack-plugin');
+
+const shouldAnalyze = process.argv.includes('--analyze')
+
+const plugins = [
+  new HtmlWebpackPlugin({
+    inject: true,
+    template: "./public/index.html",
+    filename: "./index.html",
+  }),
+  new MiniCssExtractPlugin({
+    filename: "[name].css",
+  }),
+  new CleanWebpackPlugin(),
+  new CopyPlugin({
+    patterns: [
+      {
+        from: path.resolve(__dirname, "src", "assets/images"),
+        to: "assets/images",
+      }
+    ],
+  }),
+  new WorkboxPlugin.GenerateSW({
+    // these options encourage the ServiceWorkers to get in there fast
+    // and not allow any straggling "old" SWs to hang around
+    clientsClaim: true,
+    skipWaiting: true,
+  }),
+]
+
+if (shouldAnalyze) {
+  const { BundleAnalyzerPlugin } = module.require('webpack-bundle-analyzer')
+  plugins.push(new BundleAnalyzerPlugin())
+}
+
 
 module.exports = {
   entry: "./src/index.js",
@@ -59,28 +94,7 @@ module.exports = {
       },
     ],
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject: true,
-      template: "./public/index.html",
-      filename: "./index.html",
-    }),
-    new MiniCssExtractPlugin({
-      filename: "[name].css",
-    }),
-    new CleanWebpackPlugin(),
-    new CopyPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "src", "assets/images"),
-          to: "assets/images",
-        },{
-          from: path.resolve(__dirname, "src", "service-worker.js"),
-          to: "service-worker.js",
-        }
-      ],
-    }),
-  ],
+  plugins,
   optimization: {
     minimize: true,
     minimizer: [new CssMinimizerPlugin(), new TerserPlugin()],

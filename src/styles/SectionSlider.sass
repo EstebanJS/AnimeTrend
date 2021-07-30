@@ -1,0 +1,67 @@
+@import './global'
+
+.sectionSlider
+    margin: 8px auto
+    width: 100%
+
+.sectionSlider__header
+    border-bottom: 3px solid $secondary-color
+    width: 90vw
+    margin: 0 5vw
+
+.sectionSlider__header-title
+    color: $primary-color
+    font-weight: bold
+    font-size: 2.5rem
+    margin: 8px 0
+
+.sectionSlider__slider
+    position: relative
+    margin-top: 8px
+    width: 100%
+    display: flex
+
+.sectionSlider__slider-main
+    width: 100%
+    overscroll-behavior-x: contain
+    scroll-snap-type: x proximity
+    overflow: hidden
+
+.sectionSlider__slider-cards
+    display: flex
+    width: auto
+    height: 100%
+    transition: transform .3s ease-in-out
+
+.sectionSlider__slider-btnControl
+    position: absolute
+    width: 2.5vw
+    height: 100%
+    padding: 0
+    display: flex
+    justify-content: center
+    align-items: center
+    background: transparent
+    border-radius: 0
+    border: none
+    opacity: 0
+    transition: 450ms opacity
+    z-index: 2
+
+.sectionSlider__slider-btnControl.left
+    top: 0
+    left: 0
+
+.sectionSlider__slider-btnControl.right
+    top: 0
+    right: 0
+
+.sectionSlider__slider-btnControl:hover
+    opacity: 1
+    cursor: pointer
+
+.sectionSlider__slider-btnControl.left:hover
+    background: linear-gradient(to left, rgba(0,0,0,0), #3a3434a2)
+
+.sectionSlider__slider-btnControl.right:hover
+    background: linear-gradient(to right, rgba(0,0,0,0), #3a3434a2)
