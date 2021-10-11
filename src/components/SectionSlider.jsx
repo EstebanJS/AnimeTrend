@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "@styles/SectionSlider.sass";
 import arrowLeft from "@icons/arrow-left.svg";
 import arrowRight from "@icons/arrow-right.svg";
@@ -11,20 +11,28 @@ const SectionSlider = ({
   error = null,
 }) => {
   const [slider, setSlider] = useState(0);
-  const sizeSlider = (data.length - Math.floor(window.innerWidth / 170)) * 170;
+  const [sizeSlider, setSizeSlider] = useState(0);
+  const contentSlider = useRef(null);
+  useEffect(() => {
+    setSizeSlider(data.length * 170 - contentSlider.current.clientWidth);
+  }, [contentSlider, data]);
 
   const nextSlide = () => {
     if (slider < sizeSlider) {
-      setSlider(slider + Math.floor(window.innerWidth / 170) * 170);
+      setSlider(
+        slider + Math.floor(contentSlider.current.clientWidth / 170) * 170
+      );
     }
   };
   const backSlide = () => {
     if (slider > 0) {
-      setSlider(slider - Math.floor(window.innerWidth / 170) * 170);
+      setSlider(
+        slider - Math.floor(contentSlider.current.clientWidth / 170) * 170
+      );
     }
   };
   return (
-    <section className="sectionSlider">
+    <section className="sectionSlider" ref={contentSlider}>
       <div className="sectionSlider__header">
         <h2 className="sectionSlider__header-title">{name}</h2>
       </div>
@@ -41,7 +49,7 @@ const SectionSlider = ({
             style={{ transform: `translateX(-${slider}px)` }}
           >
             {data.map((cardInfo) => (
-              <Card key={cardInfo.id} data={cardInfo}  loading={loading}/>
+              <Card key={cardInfo.id} data={cardInfo} loading={loading} />
             ))}
           </div>
         </div>
