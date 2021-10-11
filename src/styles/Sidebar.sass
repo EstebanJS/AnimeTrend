@@ -1,0 +1,24 @@
+@import './global'
+
+.sidebar
+    padding: 8px 15px
+    grid-column-start: 4
+
+.sidebar__header
+    border-bottom: 3px solid $secondary-color
+    width: 100%
+
+.sidebar__header-title
+    color: $primary-color
+    font-weight: bold
+    font-size: 2.5rem
+    margin: 8px 0
+
+.sidebar__body
+    padding-top: 8px
+
+.sidebar__body ul
+    list-style: none
+    font-size: 1.4rem
+    display: grid
+    grid-template-columns: repeat(2,1fr)
